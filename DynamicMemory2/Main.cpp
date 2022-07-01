@@ -231,7 +231,7 @@ void push_col_right(int** arr, const int rows, int& cols)
 	for (int i = 0; i < rows; i++)
 	{
 		int* buffer = new int[cols + 1]{};
-		for (int j = 0; j < cols; j++) buffer[j] = arr[i][j];
+		for (int j = 0; j < cols; j++) buffer[j] = arr[i][j-1];
 		delete[] arr[i];
 		arr[i] = buffer;
 	}
