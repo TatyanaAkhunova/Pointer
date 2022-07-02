@@ -451,7 +451,7 @@ void pop_col_right(int** arr, const int rows, int& cols)
 	for (int i = 0; i < rows; i++)
 	{
 		int* buffer = new int [cols-1]{};
-		for (int j = 0; j < cols; j++) buffer[j] = arr[i][j];
+		for (int j = 0; j < cols-1; j++) buffer[j] = arr[i][j];
 		delete[] arr[i];
 		arr[i] = buffer;
 	}
@@ -470,7 +470,7 @@ void pop_col_left(int** arr, const int rows, int& cols)
 }
 void erase_col(int**& arr, const int rows, int& cols, int index)
 {
-	/*for (int i = 0; i < rows; i++)
+	for (int i = 0; i < rows; i++)
 	{
 		int* buffer = new int [cols - 1]{};
 		for (int j = 0; j < index; j++) buffer[j] = arr[i][j];
@@ -478,9 +478,14 @@ void erase_col(int**& arr, const int rows, int& cols, int index)
 		delete[] arr[i];
 		arr [i] = buffer;
 	} cols--;
-	*/
+	
 }
 void erase_row(int**& arr, int& rows, const int cols, int index)
 {
+	int** buffer = new int* [--rows];
+	for (int i = 0; i > index; i++) buffer[rows-1] = arr[i];
+	for (int i = index; i < rows; i++) buffer[i] = arr[i];
+	delete[] arr;
+	arr = buffer;
 	
 }
