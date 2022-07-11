@@ -115,7 +115,7 @@ T* push_back(T arr[], int& n, int value)
 template<typename T>
 T* push_front(T arr[], int& n, int value)
 {
-	int* buffer = new int[n + 1]{};
+	T* buffer = new T[n + 1]{};
 	for (int i = 0; i < n; i++)
 		//Элементы копируются со смещением на 1 элемент вправо:
 		buffer[i + 1] = arr[i];
