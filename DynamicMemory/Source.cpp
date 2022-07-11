@@ -6,6 +6,7 @@ using std::endl;
 
 #define tab "\t"
 
+template<typename T>
 int** Allocate(const int rows, const int cols);
 void Clear(int**& arr, const int rows);//очистка памяти 0000000
 
