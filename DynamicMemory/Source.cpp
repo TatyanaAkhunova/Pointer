@@ -11,8 +11,10 @@ template<typename T> void Clear(T**& arr, const int rows);//очистка па�
 
 void FillRand(int arr[], const int n, int minRand = 0, int maxRand = 100);//заполнение случайными числами
 void FillRand(char arr[], const int n, int minRand = 0, int maxRand = 100);
+void FillRand(double arr[], const int n, int minRand = 0, int maxRand = 100);
 void FillRand(int** arr, const int rows, const int cols);//заполнение двумерного массива случайными числами
 void FillRand(char** arr, const int rows, const int cols);
+void FillRand(double** arr, const int rows, const int cols);
 template<typename T> void Print(T arr[], const int n);//вывод массива в консоль
 template<typename T> void Print(T** arr, const int rows, const int cols);
 
@@ -44,6 +46,13 @@ template<typename T>void erase_row(T**& arr, int& rows, const int cols, int inde
 //#define DYNAMIC_MEMORY_2
 //#define DYNAMIC_MEMORY_3
 #define DYNAMIC_MEMORY_4
+
+typedef char DataType;
+//typedef existing_type alias;
+//existing - существующий (тип данных)
+//alias - псевдоним
+
+//  #define DATA_TYPE int   вариант Си
 
 void main()
 {
@@ -162,12 +171,21 @@ void main()
 	cout << "Введите количество строк: "; cin >> rows;
 	cout << "Введите количество элементов строки: "; cin >> cols;
 
-	int** arr = Allocate<int>(rows, cols);
+	//Объявление двумерного динамического массива
+	//int** arr = Allocate<int>(rows, cols);
+	//char** arr = Allocate<char>(rows, cols);
+	//double** arr = Allocate<double>(rows, cols);
+	DataType** arr = Allocate<DataType>(rows, cols);
+
+	//в стиле Си
+	//DATA_TYPE** arr = Allocate<DATA_TYPE>(rows, cols); 
+
+	//Использование двумерного динамического массива
 	FillRand(arr, rows, cols);
 	Print(arr, rows, cols);
 
 	cout << "Добавление строки в конец массива: "; cout << endl; 
-	arr = push_row_down<int>(arr, rows, cols);
+	arr = push_row_down(arr, rows, cols);
 	Print(arr, rows, cols);
 
 	cout << "Добавление строки в начало массива: "; cout << endl;
@@ -401,7 +419,7 @@ template<typename T>T** push_row_up(T** arr, int& rows, const int cols)
 	}
 	delete[] arr;
 	arr = buffer;
-	arr[0] = new int[cols] {};
+	arr[0] = new T[cols] {};
 	rows++;
 	return arr;
 }
