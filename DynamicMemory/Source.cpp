@@ -11,8 +11,10 @@ template<typename T> void Clear(T**& arr, const int rows);//очистка па�
 
 void FillRand(int arr[], const int n, int minRand = 0, int maxRand = 100);//заполнение случайными числами
 void FillRand(char arr[], const int n, int minRand = 0, int maxRand = 100);
+void FillRand(double arr[], const int n, int minRand = 0, int maxRand = 100);
 void FillRand(int** arr, const int rows, const int cols);//заполнение двумерного массива случайными числами
 void FillRand(char** arr, const int rows, const int cols);
+void FillRand(double** arr, const int rows, const int cols);
 template<typename T> void Print(T arr[], const int n);//вывод массива в консоль
 template<typename T> void Print(T** arr, const int rows, const int cols);
 
@@ -162,12 +164,16 @@ void main()
 	cout << "Введите количество строк: "; cin >> rows;
 	cout << "Введите количество элементов строки: "; cin >> cols;
 
-	int** arr = Allocate<int>(rows, cols);
+	//Объявление двумерного динамического массива
+	//int** arr = Allocate<int>(rows, cols);
+	//char** arr = Allocate<char>(rows, cols);
+	double** arr = Allocate<double>(rows, cols);
+	//Использование двумерного динамического массива
 	FillRand(arr, rows, cols);
 	Print(arr, rows, cols);
 
 	cout << "Добавление строки в конец массива: "; cout << endl; 
-	arr = push_row_down<int>(arr, rows, cols);
+	arr = push_row_down(arr, rows, cols);
 	Print(arr, rows, cols);
 
 	cout << "Добавление строки в начало массива: "; cout << endl;
@@ -259,8 +265,17 @@ void FillRand(char arr[], const int n, int minRand, int maxRand)
 {
 	for (int i = 0; i < n; i++)
 	{
-		//Через арифметику указателей и оператор разыменования:
 		*(arr + i) = rand();
+	}
+}
+void FillRand(double arr[], const int n, int minRand, int maxRand)
+{
+	minRand *= 100;
+	maxRand *= 100;
+	for (int i = 0; i < n; i++)
+	{
+		//Через арифметику указателей и оператор разыменования:
+		*(arr + i) = double(rand() % (maxRand - minRand) + minRand)/100;
 	}
 }
 void FillRand(int** arr, const int rows, const int cols)
@@ -280,6 +295,17 @@ void FillRand(char** arr, const int rows, const int cols)
 		for (int j = 0; j < cols; j++)
 		{
 			arr[i][j] = rand();
+		}
+	}
+}
+void FillRand(double** arr, const int rows, const int cols)
+{
+	for (int i = 0; i < rows; i++)
+	{
+		for (int j = 0; j < cols; j++)
+		{
+			arr[i][j] = rand()%10000;
+			arr[i][j] /= 100;
 		}
 	}
 }
@@ -401,7 +427,7 @@ template<typename T>T** push_row_up(T** arr, int& rows, const int cols)
 	}
 	delete[] arr;
 	arr = buffer;
-	arr[0] = new int[cols] {};
+	arr[0] = new T[cols] {};
 	rows++;
 	return arr;
 }
