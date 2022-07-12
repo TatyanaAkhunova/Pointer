@@ -18,8 +18,8 @@ void FillRand(double** arr, const int rows, const int cols);
 template<typename T> void Print(T arr[], const int n);//вывод массива в консоль
 template<typename T> void Print(T** arr, const int rows, const int cols);
 
-template<typename T>T* push_back(T arr[], int& n, int value);//добавляет указанное значение в конец одномерного динамического массива
-template<typename T>T* push_front(T* arr, int& n, int value);//добавляет указанное значение в начало одномерного динамического массива
+template<typename T>T* push_back(T arr[], int& n, T value);//добавляет указанное значение в конец одномерного динамического массива
+template<typename T>T* push_front(T* arr, int& n, T value);//добавляет указанное значение в начало одномерного динамического массива
 template<typename T>T* insert(T* arr, int& n, int value, int& index);//вставляет указанное значение в динамический массив по указанному индексу
 template<typename T>T* pop_back(T* arr, int& n);//удаляет последний элемент массива
 template<typename T>T* pop_front(T* arr, int& n);//удаляет первый элемент массива
@@ -321,7 +321,7 @@ template<typename T>void Print(T** arr, const int rows, const int cols)
 	}
 	cout << endl;
 }
-template<typename T>T* push_back(T arr[], int& n, int value)
+template<typename T>T* push_back(T arr[], int& n, T value)
 {
 	T* buffer = new T[n + 1]{};
 	for (int i = 0; i < n; i++)
@@ -334,7 +334,7 @@ template<typename T>T* push_back(T arr[], int& n, int value)
 	n++;
 	return arr;
 }
-template<typename T>T* push_front(T* arr, int& n, int value)
+template<typename T>T* push_front(T* arr, int& n, T value)
 {
 	T* buffer = new T[n + 1]{};
 	for (int i = 0; i < n; i++)
