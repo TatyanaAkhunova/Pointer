@@ -47,6 +47,13 @@ template<typename T>void erase_row(T**& arr, int& rows, const int cols, int inde
 //#define DYNAMIC_MEMORY_3
 #define DYNAMIC_MEMORY_4
 
+typedef char DataType;
+//typedef existing_type alias;
+//existing - существующий (тип данных)
+//alias - псевдоним
+
+//  #define DATA_TYPE int   вариант Си
+
 void main()
 {
 	setlocale(LC_ALL, "");
@@ -167,7 +174,12 @@ void main()
 	//Объявление двумерного динамического массива
 	//int** arr = Allocate<int>(rows, cols);
 	//char** arr = Allocate<char>(rows, cols);
-	double** arr = Allocate<double>(rows, cols);
+	//double** arr = Allocate<double>(rows, cols);
+	DataType** arr = Allocate<DataType>(rows, cols);
+
+	//в стиле Си
+	//DATA_TYPE** arr = Allocate<DATA_TYPE>(rows, cols); 
+	
 	//Использование двумерного динамического массива
 	FillRand(arr, rows, cols);
 	Print(arr, rows, cols);
