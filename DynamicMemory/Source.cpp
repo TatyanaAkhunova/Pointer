@@ -166,6 +166,7 @@ void main()
 	delete[] arr;
 #endif // DYNAMIC_MEMORY_3
 
+#ifdef DYNAMIC_MEMORY_4
 	int rows;
 	int cols;
 	cout << "Введите количество строк: "; cin >> rows;
@@ -184,7 +185,7 @@ void main()
 	FillRand(arr, rows, cols);
 	Print(arr, rows, cols);
 
-	cout << "Добавление строки в конец массива: "; cout << endl; 
+	cout << "Добавление строки в конец массива: "; cout << endl;
 	arr = push_row_down(arr, rows, cols);
 	Print(arr, rows, cols);
 
@@ -226,7 +227,7 @@ void main()
 	pop_col_left(arr, rows, cols);
 	Print(arr, rows, cols);
 
-    cout << "Удаление столбца справа: "; cout << endl;
+	cout << "Удаление столбца справа: "; cout << endl;
 	pop_col_right(arr, rows, cols);
 	Print(arr, rows, cols);
 
@@ -244,6 +245,8 @@ void main()
 
 	Clear(arr, rows);
 	cout << arr;
+
+#endif // DYNAMIC_MEMORY_4
 
 }
 template<typename T>T** Allocate(const int rows, const int cols)
