@@ -20,7 +20,7 @@ template<typename T> void Print(T** arr, const int rows, const int cols);
 
 template<typename T>T* push_back(T arr[], int& n, T value);//добавляет указанное значение в конец одномерного динамического массива
 template<typename T>T* push_front(T* arr, int& n, T value);//добавляет указанное значение в начало одномерного динамического массива
-template<typename T>T* insert(T* arr, int& n, int value, int& index);//вставляет указанное значение в динамический массив по указанному индексу
+template<typename T>T* insert(T arr[], int& n, T value, int index);//вставляет указанное значение в динамический массив по указанному индексу
 template<typename T>T* pop_back(T* arr, int& n);//удаляет последний элемент массива
 template<typename T>T* pop_front(T* arr, int& n);//удаляет первый элемент массива
 template<typename T>T* erase(T* arr, int& n, int& index);//удаляет указанное значение в динамическом массиве по указанному индексу
@@ -30,11 +30,11 @@ template<typename T>T** push_row_up(T** arr, int& rows, const int cols); //до�
 template<typename T>void insert_row(T**& arr, int& rows, const int cols, int index);//добавление строки по указанному индексу
 template<typename T>void push_col_right(T** arr, const int rows, int& cols);//добавление столбца справа
 template<typename T>void push_col_left(T** arr, const int rows, int& cols);//добавление столбца слева
-template<typename T>void insert_col(T**& arr, const int rows, int& cols, int index);//добавление столбца по указанному индексу
+template<typename T>void insert_col(T** arr, const int rows, int& cols, int index);//добавление столбца по указанному индексу
 
 //void pop_row_doun(int**& arr, int& rows, const int cols);//удаление нижней строки
 template<typename T>T** pop_row_doun(T** arr, int& rows, const int cols);//удаление нижней строки
-template<typename T>void pop_row_up(T**& arr, int& rows, const int cols);//удаление верхней строки
+template<typename T>T** pop_row_up(T** arr, int& rows, const int cols);//удаление верхней строки
 
 template<typename T>void pop_col_right(T** arr, const int rows, int& cols);//удаление столбца справа
 template<typename T>void pop_col_left(T** arr, const int rows, int& cols);//удаление столбца слева
@@ -166,6 +166,7 @@ void main()
 	delete[] arr;
 #endif // DYNAMIC_MEMORY_3
 
+#ifdef DYNAMIC_MEMORY_4
 	int rows;
 	int cols;
 	cout << "Введите количество строк: "; cin >> rows;
@@ -179,12 +180,12 @@ void main()
 
 	//в стиле Си
 	//DATA_TYPE** arr = Allocate<DATA_TYPE>(rows, cols); 
-	
+
 	//Использование двумерного динамического массива
 	FillRand(arr, rows, cols);
 	Print(arr, rows, cols);
 
-	cout << "Добавление строки в конец массива: "; cout << endl; 
+	cout << "Добавление строки в конец массива: "; cout << endl;
 	arr = push_row_down(arr, rows, cols);
 	Print(arr, rows, cols);
 
@@ -226,7 +227,7 @@ void main()
 	pop_col_left(arr, rows, cols);
 	Print(arr, rows, cols);
 
-    cout << "Удаление столбца справа: "; cout << endl;
+	cout << "Удаление столбца справа: "; cout << endl;
 	pop_col_right(arr, rows, cols);
 	Print(arr, rows, cols);
 
@@ -244,6 +245,8 @@ void main()
 
 	Clear(arr, rows);
 	cout << arr;
+#endif // DYNAMIC_MEMORY_4
+
 
 }
 template<typename T>T** Allocate(const int rows, const int cols)
@@ -365,7 +368,7 @@ template<typename T>T* push_front(T* arr, int& n, T value)
 	n++;
 	return arr;
 }
-template<typename T>T* insert(T* arr, int& n, int value, int& index)
+template<typename T>T* insert(T arr[], int& n, T value, int index)
 {
 	T* buffer = new T[n + 1]{};
 	for (int i = 0; i < index; i++)
@@ -418,26 +421,17 @@ template<typename T>T** push_row_down(T** arr, int& rows, const int cols)
 template<typename T>T** push_row_up(T** arr, int& rows, const int cols)
 {
 	return push_front(arr, rows, new T[cols]{});
-	/*T** buffer = new T* [rows + 1]{};
-	for (int i = 0; i < rows; i++)
-	{
-		buffer[i+1] = arr[i];
-	}
-	delete[] arr;
-	arr = buffer;
-	arr[0] = new T[cols] {};
-	rows++;
-	return arr;*/
 }
 template<typename T>void insert_row(T**& arr, int& rows, const int cols, int index)
 {
+	//return insert(arr, rows, new T[cols]{}, T());
 	if (index > rows) return;
-	T** buffer = new T* [rows + 1];
+	T** buffer = new T* [rows + 1]{};
 	for (int i = 0; i < index; i++) buffer[i] = arr[i];
+	buffer[index] = new T[cols]{};
 	for (int i = index; i < rows; i++) buffer[i + 1] = arr[i];
 	delete[] arr;
 	arr = buffer;
-	arr[index] = new T[cols]{};
 	rows++;
 }
 template<typename T>void push_col_right(T** arr, const int rows, int& cols)
@@ -466,7 +460,7 @@ template<typename T>void push_col_left(T** arr, const int rows, int& cols)
 	}
 	cols++;
 }
-template<typename T>void insert_col(T**& arr, const int rows, int& cols, int index)
+template<typename T>void insert_col(T** arr, const int rows, int& cols, int index)
 {
 	for (int i = 0; i < rows; i++)
 	{
@@ -500,20 +494,29 @@ template<typename T>T** pop_row_doun(T** arr, int& rows, const int cols)
 	return buffer;*/
 }
 
-template<typename T>void pop_row_up(T**& arr, int& rows, const int cols)
+template<typename T>T** pop_row_up(T** arr, int& rows, const int cols)
 {
+	//delete[] arr[rows - 1];
+	//return pop_front(arr, rows);
+	
 	T** buffer = new T* [--rows];
-	for (int i = 0; i < rows; i++) buffer[i] = arr[i+1];
+	for (int i = 0; i < rows-1; i++) buffer[i] = arr[i+1];
 	delete[] arr[0];
 	delete[] arr;
 	arr = buffer;
+	return arr;
 }
 template<typename T>void pop_col_right(T** arr, const int rows, int& cols)
 {
+	/*for (int i = 0; i < rows; i++)
+	{
+		arr[i] = pop_back(arr[i], cols);
+		cols--;
+	}*/
 	for (int i = 0; i < rows; i++)
 	{
-		T* buffer = new T [cols-1]{};
-		for (int j = 0; j < cols-1; j++) buffer[j] = arr[i][j];
+		T* buffer = new T[cols - 1]{};
+		for (int j = 0; j < cols - 1; j++) buffer[j] = arr[i][j];
 		delete[] arr[i];
 		arr[i] = buffer;
 	}
@@ -524,7 +527,7 @@ template<typename T>void pop_col_left(T** arr, const int rows, int& cols)
 	for (int i = 0; i < rows; i++)
 	{
 		T* buffer = new T[cols - 1]{};
-		for (int j = 0; j < cols; j++) buffer[j] = arr[i][j+1];
+		for (int j = 0; j < cols; j++) buffer[j] = arr[i][j + 1];
 		delete[] arr[i];
 		arr[i] = buffer;
 	}
@@ -539,8 +542,8 @@ template<typename T>void erase_col(T**& arr, const int rows, int& cols, int inde
 		for (int j = index; j < cols; j++) buffer[j-1] = arr[i][j];
 		delete[] arr[i];
 		arr [i] = buffer;
-	} cols--;
-	
+	} 
+	cols--;
 }
 template<typename T>void erase_row(T**& arr, int& rows, const int cols, int index)
 {
