@@ -20,7 +20,7 @@ template<typename T> void Print(T** arr, const int rows, const int cols);
 
 template<typename T>T* push_back(T arr[], int& n, T value);//добавляет указанное значение в конец одномерного динамического массива
 template<typename T>T* push_front(T* arr, int& n, T value);//добавляет указанное значение в начало одномерного динамического массива
-template<typename T>T* insert(T* arr, int& n, int value, int& index);//вставляет указанное значение в динамический массив по указанному индексу
+template<typename T>T* insert(T* arr, int& n, T value, int& index);//вставляет указанное значение в динамический массив по указанному индексу
 template<typename T>T* pop_back(T* arr, int& n);//удаляет последний элемент массива
 template<typename T>T* pop_front(T* arr, int& n);//удаляет первый элемент массива
 template<typename T>T* erase(T* arr, int& n, int& index);//удаляет указанное значение в динамическом массиве по указанному индексу
@@ -348,7 +348,7 @@ template<typename T>T* push_front(T* arr, int& n, T value)
 	n++;
 	return arr;
 }
-template<typename T>T* insert(T* arr, int& n, int value, int& index)
+template<typename T>T* insert(T* arr, int& n, T value, int& index)
 {
 	T* buffer = new T[n + 1]{};
 	for (int i = 0; i < index; i++)
